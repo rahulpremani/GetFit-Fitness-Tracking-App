@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Get Fit</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>!function (e, t, a) { var c = e.head || e.getElementsByTagName("head")[0], n = e.createElement("script"); n.async = !0, n.defer = !0, n.type = "text/javascript", n.src = t + "/static/js/chat_widget.js?config=" + JSON.stringify(a), c.appendChild(n) }(document, "https://app.engati.com", { bot_key: "4b6303ab0a6e48b3", welcome_msg: true, branding_key: "default", server: "https://app.engati.com", e: "p" });</script>
+</head>
+
+<body>
+    <app-root style="margin: 0; top: 0; right: 0; left: 0; bottom: 0; z-index: 3001;">
+        <p style="position: absolute; top: -3%; left: 18%; color: #ed2553;">
+            <img src="assets/images/run.gif"><br>
+        </p>
+    </app-root>
+    <script>
+        var time = 0;
+        var running = 0;
+
+        function startPause() {
+            if (running == 0) {
+                running = 1;
+                increment();
+                document.getElementById("startPause").innerHTML = "<b>Pause</b>";
+            } else {
+                running = 0;
+                document.getElementById("startPause").innerHTML = "<b>Resume</b>";
+            }
+        }
+
+        function reset() {
+            running = 0;
+            time = 0;
+            document.getElementById("startPause").innerHTML = "<b>Start</b>";
+            document.getElementById("stopWatchDisplay").innerHTML = "<b>0:00:00:00</b>";
+        }
+
+        function increment() {
+            if (running == 1) {
+                setTimeout(function () {
+                    time++;
+                    var hours = Math.floor(time / 10 / 60 / 60);
+                    var mins = Math.floor(time / 10 / 60);
+                    var secs = Math.floor(time / 10 % 60);
+                    var tenth = time % 10;
+
+                    if (mins < 10) {
+                        mins = "0" + mins;
+                    }
+                    if (secs < 10) {
+                        secs = "0" + secs;
+                    }
+                    document.getElementById("stopWatchDisplay").innerHTML = hours + ":" + mins + ":" + secs + ":" + tenth;
+                    increment();
+                }, 100);
+            }
+        }
+
+        function formReset() {
+            // document.getElementById("title").value = "";
+            // document.getElementById("startPause").innerHTML = "<b>Start</b>";
+            // document.getElementById("stopWatchDisplay").innerHTML = "<b>0:00:00:00</b>";
+            var dropDown = document.getElementById("activity");
+            dropDown.selectedIndex = 0;
+        }
+    </script>
+</body>
+
+</html>

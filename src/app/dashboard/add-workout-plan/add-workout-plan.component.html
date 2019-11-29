@@ -1,0 +1,181 @@
+<div id="wrapper">
+
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <div id="content">
+
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-gray-900;" style="font-weight: 400"><b>Body Goals:</b></h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <h2 class="text-gray-800" style="margin-bottom: 15px;" *ngIf="!ifExists">Choose your Goal First:</h2>
+
+            <h2 class="text-gray-800" style="margin-bottom: 15px;" *ngIf="ifExists">{{finalBodyTypeValue}} in
+              {{finalModeValue}}</h2>
+
+          </div>
+        </div>
+        <form [formGroup]="bodyForm">
+          <div class="dropdown show" style="margin-bottom: 23px;">
+            <span>
+              <div class="form-group">
+                <select formControlName="bodyType" name="bodyType" id="bodyType" class="btn"
+                  style="color: white; background-color:rgb(245, 92, 128);">
+                  <option value="" disabled>Select Body Goal</option>
+                  <option>Lean & Fit</option>
+                  <option>Muscular</option>
+                  <option>Fat Loss</option>
+                </select>
+                <div
+                  *ngIf="getBodyTypeValidator.invalid && (getBodyTypeValidator.touched || getBodyTypeValidator.dirty)">
+                  <small *ngIf="getBodyTypeValidator.errors?.required" class="text-danger">Please select body
+                    target.</small>
+                </div>
+              </div>
+            </span>
+            <span>
+              <div class="form-group">
+                <select formControlName="workoutMode" name="workoutMode" id="workoutMode" class="btn"
+                  style="color: white; background-color:rgb(245, 92, 128);">
+                  <option value="" disabled>Choose Mode</option>
+                  <option>Beast Mode(1 month)</option>
+                  <option>Intermediate Mode(2 months)</option>
+                  <option>Normal Mode(3 months)</option>
+                </select>
+                <div
+                  *ngIf="getTrainingModeValidator.invalid && (getTrainingModeValidator.touched || getTrainingModeValidator.dirty)">
+                  <small *ngIf="getTrainingModeValidator.errors?.required" class="text-danger">Please select training
+                    duration.</small>
+                </div>
+              </div>
+            </span>
+            <span>
+              <button type="submit" [disabled]="bodyForm.invalid" class="btn"
+                style="color: white; background-color:rgb(245, 92, 128);" (click)="insertGoal()">SUBMIT/UPDATE</button>
+            </span>
+          </div>
+        </form>
+        <div *ngIf="finalFlag">
+        <div *ngIf="ifExists; then thenBlock;"></div>
+
+        <ng-template #thenBlock>
+          <div *ngIf="dropdownSelected">
+            <div class="row">
+
+              <div class="col-xl-6 col-lg-6">
+                <div class="card shadow mb-4" style="height: 320px;">
+
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Recommended Exercises:</h6>
+
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-area">
+                      <div *ngIf="ifExerciseExists">
+                        <ul *ngFor="let exercise of exercises">
+                          <li>{{exercise}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6">
+                <div class="card shadow mb-4" style="height: 320px;">
+
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Calorie Goals:</h6>
+
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area">
+                      <h2 *ngIf="goalFlag">You need to burn: <br><b>{{goalCalories}}</b> calories per day</h2>
+                      <img src="/assets/gifs/calories.gif" style="width: 160px; height: 160px;" alt="Calories-pic">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-xl-12 col-lg-5">
+                <div class="card shadow mb-4" style="height: 380px;">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Diet Plan(Morning)</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2" style="margin-top: -22px;">
+                      <div *ngIf="ifExerciseExists">
+                        <ul *ngFor="let mornDiet of finalUserDietMorning;  index as i">
+                          <span style="font-size: 17px; font-weight: 500; margin-left: -30px;">{{days[i]}}</span> -
+                          <span>{{mornDiet}}</span>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-4 text-center small">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-5">
+                <div class="card shadow mb-4" style="height: 380px;">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Diet Plan(Noon)</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2" style="margin-top: -22px;">
+                      <div *ngIf="ifExerciseExists">
+                        <ul *ngFor="let noonDiet of finalUserDietNoon; index as i">
+                          <span style="font-size: 17px; font-weight: 500; margin-left: -30px;">{{days[i]}}</span> -
+                          <span>{{noonDiet}}</span>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-4 text-center small">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-12 col-lg-5">
+                <div class="card shadow mb-4" style="height: 380px;">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Diet Plan(Evening)</h6>
+
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2" style="margin-top: -22px;">
+                      <div *ngIf="ifExerciseExists">
+                        <ul *ngFor="let evenDiet of finalUserDietEvening; index as i">
+                          <span style="font-size: 17px; font-weight: 500; margin-left: -30px;">{{days[i]}}</span> -
+                          <span>{{evenDiet}}</span>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="mt-4 text-center small">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        </div>
+      </div>
+    </div>

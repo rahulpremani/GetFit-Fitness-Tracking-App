@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-md bg-light navbar-light sticky-top">
+    <!-- Brand -->
+    <a class="navbar-brand" [routerLink]="'/'" *ngIf="!isLoggedIn">Get Fit</a>
+    <span class="navbar-brand" *ngIf="isLoggedIn" style="text-transform: uppercase; letter-spacing: 0.15em;">Get Fit</span>
+    
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Navbar links -->
+    <div [ngbCollapse]="isNavbarCollapsed" class="navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav justify-content-end ml-auto">
+            <li class="nav-item" routerLinkActive = "active" [routerLinkActiveOptions] = "{exact:true}" [hidden]="!isLoggedIn">
+                <a class="nav-link subtemp" [routerLink]="'/dashboard'">DashBoard<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive = "active" [routerLinkActiveOptions] = "{exact:true}" [hidden]="isLoggedIn">
+                <a class="nav-link subtemp" [routerLink]="'/'">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive = "active">
+                <a class="nav-link  subtemp" [routerLink]="'/features'">Features</a>
+            </li>
+            
+            <li class="nav-item" routerLinkActive = "active">
+                <a class="nav-link subtemp" [routerLink]="'/about-us'">About Us</a>
+            </li>
+            
+            <li class="nav-item" routerLinkActive = "active">
+                <a class="nav-link subtemp " [routerLink]="'/contact-us'">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+

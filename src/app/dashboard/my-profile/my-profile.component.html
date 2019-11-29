@@ -1,0 +1,181 @@
+<div class="outer-container">
+    <div class="bg"></div>
+    <div class="hello2">
+        <img src="/assets/images/avatar1.png" alt="Profile-pic">
+        <div class="col-md-12" align="center" id="name">
+            <h3 style="font-weight: 600;">{{model.fullName}}</h3>
+        </div>
+        <flash-messages></flash-messages>
+        <div class="table-responsive">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td><label style="margin-left: 40%;">Registered email:</label></td>
+                        <td>{{model.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><label style="margin-left: 40%;">Mobile Number:</label></td>
+                        <td>{{model.mobileNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td><label style="margin-left: 40%;">Height(cm):</label></td>
+                        <td>{{model.height}}</td>
+                    </tr>
+                    <tr>
+                        <td><label style="margin-left: 40%;">Weight(kg):</label></td>
+                        <td>{{model.weight}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" value="Save changes" style="margin-left: 40%;" class="btn" id="btn2"
+                                    data-toggle="modal" data-target="#resetPasswordModal">Reset P/W</button>
+                        </td>
+                        <td><button type="button" value="Save changes" id="btn2" class="btn" data-toggle="modal"
+                                data-target="#exampleModal" data-backdrop="static">Update
+                                Profile</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Update Profile Modal -->
+<div class="modal fade" id="exampleModal" (blur)=clear() tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)=clear()>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="block_container">
+                <form [formGroup]="profileForm">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td><label style="margin-left: 30%;">Mobile No:</label></td>
+                                    <td><input type="number" class="form-control modal-body1" id="newMobileNumber"
+                                            value="{{model.mobileNumber}}" formControlName="mobile"
+                                            style="width: 70%; margin-left: 10%;" pattern="/^-?\d+\.?\d*$/"
+                                            onKeyPress="if(this.value.length==10) return false;">
+                                        <div style="margin-left: 10%;" *ngIf="getMobile.invalid && (getMobile.dirty)">
+                                            <small *ngIf="getMobile.errors?.required" class="text-danger">Mobile number
+                                                is
+                                                required</small>
+                                            <small *ngIf="getMobile.errors?.min" class="text-danger">Mobile number
+                                                must
+                                                consists
+                                                of 10 characters</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label style="margin-left: 30%;">Height(cm):</label></td>
+                                    <td><input type="number" class="form-control modal-body1" id="newHeight"
+                                            value="{{model.height}}" formControlName="height"
+                                            style="width: 70%; margin-left: 10%;" min="50" max="250"
+                                            pattern="/^-?\d+\.?\d*$/"
+                                            onKeyPress="if(this.value.length==3) return false;">
+                                        <div style="margin-left: 10%;" *ngIf="getHeight.invalid && (getHeight.dirty)">
+                                            <div *ngIf="getHeight.errors?.required" class="text-danger">
+                                                <small>Height is required</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label style="margin-left: 30%;">Weight(kg):</label></td>
+                                    <td><input type="number" class="form-control modal-body1" id="newWeight"
+                                            value="{{model.weight}}" formControlName="weight"
+                                            style="width: 70%; margin-left: 10%;" min="30" max="200"
+                                            pattern="/^-?\d+\.?\d*$/"
+                                            onKeyPress="if(this.value.length==3) return false;">
+                                        <div style="margin-left: 10%;" *ngIf="getWeight.invalid && (getWeight.dirty)">
+                                            <div *ngIf="getWeight.errors?.required" class="text-danger">
+                                                <small>Weight is required</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)=clear() (blur)=clear() class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+                <button type="button" (click)="updateDetails()" data-dismiss="modal" class="btn btn-primary">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" (blur)=clear() tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)=clear()>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="block_container">
+                <form [formGroup]="resetPasswordForm">
+
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label" style="text-align: center;">Old Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control modal-body1" id="oldPasswordId"
+                                formControlName="oldPassword" style="width: 70%;">
+                            <div *ngIf="getOldPassword.invalid && (getOldPassword.touched || getOldPassword.dirty)">
+                                <small *ngIf="getOldPassword.errors?.required" class="text-danger">Password is
+                                    required</small>
+                                <small *ngIf="getOldPassword.errors?.pattern" class="text-danger">Password Should match
+                                    the pattern</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label" style="text-align: center;">New Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control modal-body1" id="newPasswordId"
+                                formControlName="newPassword" style="width: 70%;" min="50" max="250">
+                            <div *ngIf="getNewPassword.invalid && (getNewPassword.touched || getNewPassword.dirty)">
+                                <small *ngIf="getNewPassword.errors?.required" class="text-danger">Password is
+                                    required</small>
+                                <small *ngIf="getNewPassword.errors?.pattern" class="text-danger">Password Should match
+                                    the pattern</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <small style="margin-left: 22px;" class="text-secondary">*Password should be of minimum 6
+                        digits</small><br>
+                    <small style="margin-left: 22px;" class="text-secondary">*It should have atleast 1 uppercase
+                        alphabet</small><br>
+                    <small style="margin-left: 22px;" class="text-secondary">*It should have atleast 1 lowercase
+                        alphabet</small><br>
+                    <small style="margin-left: 22px;" class="text-secondary">*It should have atleast 1 special
+                        character</small><br>
+                    <small style="margin-left: 22px;" class="text-secondary">*It should have atleast 1 digit</small>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)=clearResetForm() (blur)=clearResetForm() class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+                <button type="button" (click)="resetPasswordHandler()" data-dismiss="modal"
+                    class="btn btn-primary">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>

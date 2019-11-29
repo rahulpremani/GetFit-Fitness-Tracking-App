@@ -1,0 +1,7 @@
+<div *ngIf="calMonthWiseAvailable && goalAvailableFlag" style="margin-top: -2%;">
+    <div style="display: block">
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+            [legend]="barChartLegend" [chartType]="barChartType" height="26%" width="100%">
+        </canvas>
+    </div>
+</div>

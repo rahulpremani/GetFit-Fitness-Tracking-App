@@ -1,0 +1,242 @@
+<section>
+    <!-- Sidebar -->
+    <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" routerLink="/dashboard/my-profile">
+                <span class="text-gray">
+                    <fa-icon icon="user" size="1x"></fa-icon>
+                </span>&nbsp;
+                <span>Welcome <span style="font-size: 15px; text-transform: uppercase;">{{fName}}</span></span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- ------------------------------------------------  -->
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" routerLink="/dashboard/track-progress">
+                <span class="text-gray">
+                    <fa-icon icon="tachometer-alt" size="1x"></fa-icon>
+                </span>&nbsp;
+                <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- ------------------------------------------------  -->
+        <!-- ------------------------------------------------  -->
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" routerLink="/dashboard/add-workout-plan">
+                <span class="text-gray">
+                    <fa-icon icon="running" size="1x"></fa-icon>
+                </span>&nbsp;
+                <span>My Goals</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" routerLink="/dashboard/my-workout-plan">
+                <span class="text-gray">
+                    <fa-icon icon="dumbbell" size="1x"></fa-icon>
+                </span>&nbsp;
+                <span>Workouts & Progress</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+
+
+        <!-- ------------------------------------------------  -->
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <li class="nav-item active" *ngIf="!isSubscribed">
+            <a class="nav-link" [routerLink]="'/dashboard/go-premium'">
+                <span class="text-gray">
+                    <fa-icon style="color: #fff;" icon="briefcase" size="sm"></fa-icon>
+                </span>&nbsp;
+                <span>Go Premium</span></a>
+        </li>
+
+        <li class="nav-item active" *ngIf="isSubscribed">
+            <a class="nav-link" [routerLink]="'/dashboard/premium-features'">
+                <span class="text-gray">
+                    <fa-icon style="color: #fff;" icon="briefcase" size="sm"></fa-icon>
+                </span>&nbsp;
+                <span>Premium Features</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+
+
+        <!-- ------------------------------------------------  -->
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+                <span class="text-gray">
+                    <fa-icon icon="sign-out-alt" size="1x"></fa-icon>
+                </span>&nbsp;
+                <span>Logout</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- ------------------------------------------------  -->
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <audio preload autoplay loop *ngIf="isSubscribed" id="player">
+            <source [src]="bgSong" type="audio/mp3">
+        </audio>
+        <div style="text-align: left;" *ngIf="isSubscribed">
+            <div class="container" style="display: inline-block;">
+                <button class="btn btn-outline-light"
+                    onclick="document.getElementById('player').muted=!document.getElementById('player').muted"><span><i
+                            class="fa fa-volume-off"></i></span> / <span><i class="fa fa-volume-up"></i></span></button>
+            </div>
+        </div>
+        <div class="icon-bar">
+            <button class="btn btn-success btn-circle btn-circle-xl m-1" data-toggle="modal" data-target="#myModal"
+                data-backdrop="static"><i class="fa fa-plus fa-lg"></i></button>
+        </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+</section>
+
+
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-lg modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h1 class="modal-title">Start Your Activity</h1>
+                <!-- <button type="button" class="close" onclick="resetForm()" data-dismiss="modal">&times;</button> -->
+            </div>
+
+            <!-- Modal body -->
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 ">
+                        <form [formGroup]="workoutForm">
+                            <table class="table">
+                                <thead>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label for="title"><strong>Title:</strong></label>
+                                            <div class="form-group">
+                                                <input type="text" id="title"
+                                                    [class.is-invalid]="title.invalid && (title.touched || title.dirty)"
+                                                    formControlName="title" class="form-control" placeholder="Title">
+                                                <div *ngIf="title.invalid && (title.touched || title.dirty)">
+                                                    <small *ngIf="title.errors?.required" class="text-danger">Title is
+                                                        required</small>
+                                                    <small *ngIf="title.errors?.minlength" class="text-danger">Title
+                                                        should contain atleast 3 characters</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label for="title"><strong>Activity:</strong></label>
+                                            <select name="activity" id="activity"
+                                                [class.is-invalid]="activity.invalid && activity.touched"
+                                                formControlName="activity" class="custom-select">
+                                                <option value="" disabled>Please Select an Activity</option>
+                                                <option *ngFor="let act of activities">{{act}}</option>
+                                            </select>
+                                            <div *ngIf="activity.invalid && activity.touched">
+                                                <small *ngIf="activity.errors?.required" class="text-danger">Activity is
+                                                    required</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn"
+                                    style="  background: linear-gradient(to right, rgba(237,37,83) , rgba(244,124,151)); color: white;"
+                                    data-dismiss="modal" [disabled]="workoutForm.invalid || workoutForm.untouched"
+                                    (click)="letsStart()" onclick="formReset()" (click)="resetForm()">Submit</button>
+                                <button type="button" class="btn btn-outline-danger" onclick="formReset()"
+                                    (click)="resetForm()" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <div class="container">
+                            <h1>
+                                <p id="stopWatchDisplay" style="margin-left: 23%; margin-top: 8%; ">
+                                    <b
+                                        style="color: linear-gradient(to right, rgba(237,37,83) , rgba(244,124,151)); ">0:00:00:00</b>
+                                </p>
+                            </h1>
+                            <div>
+                                <div id="myDIV" *ngIf="isRunning">
+                                    <img style=" margin-left: 30%; height: 50%; width: 40%;"
+                                        src="assets/gifs/{{source}}" alt="">
+                                </div>
+                            </div>
+
+                            <div id="controls" style=" padding-left:30%;">
+                                <button id="startPause"
+                                    style="background: linear-gradient(to right, rgba(237,37,83) , rgba(244,124,151)); "
+                                    class="btn  btn-circle btn-circle-lg m-1" onclick="startPause()"
+                                    (click)="fetchGif()"><b id="start">Start</b></button>
+                                <button id="reset"
+                                    style="background: linear-gradient(to right, rgba(237,37,83) , rgba(244,124,151));"
+                                    class="btn btn-circle btn-circle-lg m-1" onclick="reset()"><b
+                                        id="reset">Reset</b></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>

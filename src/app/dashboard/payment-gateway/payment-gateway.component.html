@@ -1,0 +1,71 @@
+<div class="row" style="width: 70%; padding-left: 30%;">
+    <div class="col-75" style="margin-bottom: 30px;">
+        <div class="container" style="margin-top: 10%;">
+            <div class="row">
+                <div class="col-50">
+                    <h3 style="text-align: center; margin-top: 11px;">Payment Gateway</h3>
+                    <label for="fname" style="font-weight: bold; margin-top: 15px;">Accepted Cards:</label>
+                    <div class="icon-container" style="margin-top: -18px;">
+                        <i class="fa fa-cc-visa" style="color:navy; font-size: 30px;"></i>
+                        <i class="fa fa-cc-amex" style="color:blue; font-size: 30px;"></i>
+                        <i class="fa fa-cc-mastercard" style="color:red; font-size: 30px;"></i>
+                        <i class="fa fa-cc-discover" style="color:orange; font-size: 30px;"></i>
+                    </div>
+                    <form [formGroup]="paymentGatewayForm" (ngSubmit)="onPaymentHandler()">
+                        <div class="form-group" style="margin-top: 10px;">
+                            <label for="cname" style="font-weight: bold;">Name on Card</label>
+                            <input type="text" formControlName="cardname" maxlength="25">
+                            <div *ngIf="getCardName.invalid && (getCardName.touched || getCardName.dirty)"
+                            style="margin-top: -7%;">
+                            <small *ngIf="getCardName.errors?.required" class="text-danger">Card Name is required</small>
+                            <small *ngIf="getCardName.errors?.pattern" class="text-danger">Your name is invalid
+                                    because it can't contain Numbers</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-weight: bold;">Card Number</label>
+                        <input type="number" formControlName="cardnumber" onKeyPress="if(this.value.length==16) return false;">
+                        <div *ngIf="getCardNumber.invalid && (getCardNumber.touched || getCardNumber.dirty)"
+                        style="margin-top: -7%;">
+                        <small *ngIf="getCardNumber.errors?.required" class="text-danger">Card Number is required</small>
+                        <small *ngIf="getCardNumber.errors?.minlength" class="text-danger">Min. 16 digits is required</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="expmonth" style="font-weight: bold;">Exp Month</label>
+                    <input type="number" pattern="/^-?\d+\.?\d*$/" formControlName="expmonth" onKeyPress="if(this.value.length==2) return false;">
+                    <div *ngIf="getExpMonth.invalid && (getExpMonth.touched || getExpMonth.dirty)"
+                    style="margin-top: -7%;">
+                    <small *ngIf="getExpMonth.errors?.required" class="text-danger">Expiry Month is required</small>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-50">
+                    <div class="form-group">
+                        <label for="expyear" style="font-weight: bold;">Exp Year</label>
+                        <input type="number" pattern="/^-?\d+\.?\d*$/" formControlName="expyear" onKeyPress="if(this.value.length==4) return false;">
+                        <div *ngIf="getExpYear.invalid && (getExpYear.touched || getExpYear.dirty)"
+                        style="margin-top: -7%;">
+                        <small *ngIf="getExpYear.errors?.required" class="text-danger">Expiry Year is required</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-50">
+                <div class="form-group">
+                    <label for="cvv" style="font-weight: bold;">CVV</label>
+                    <input type="number" formControlName="cvv" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;">
+                    <div *ngIf="getCVV.invalid && (getCVV.touched || getCVV.dirty)"
+                    style="margin-top: -7%;">
+                    <small *ngIf="getCVV.errors?.required" class="text-danger">CVV is required</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="bttn btn-1">Continue to Checkout</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
