@@ -28,4 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## How to Run this application
 
-Unzip the node modules and run all the microservices that are built on Spring Boot and create a MySQL database and import the sql database present in the project.
+Unzip the node modules and run all the microservices that are built on Spring Boot and create a MySQL database and import the sql database present in the repository.
